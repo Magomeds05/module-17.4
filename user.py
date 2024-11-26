@@ -17,7 +17,7 @@ async def all_users(db: Annotated[Session, Depends(get_db)]):
 @router.get("/user_id")
 async def user_by_id(db: Annotated[Session, Depends(get_db)],
                      user_id: int):
-    user = db.scalars(select(User).where(User.id == user_id))
+    user = db.scalar(select(User).where(User.id == user_id))
     if user is None:
         return user
     raise HTTPException(status_code=404, detail="User was not found")
@@ -51,7 +51,7 @@ async def update_user(db: Annotated[Session, Depends(get_db)],
 
 @router.delete("/delete")
 async def update_user(db: Annotated[Session, Depends(get_db)], user_id: int):
-    users = db.scalars(select(User).where(User.id == user_id))
+    users = db.scalar(select(User).where(User.id == user_id))
     for user in users:
         if user is None:
             db.execute(update(User).where(User.id == user_id))
